@@ -4,18 +4,6 @@
 
 ---
 
-## 🚀 Live Demo
-
-[Add your deployed URL here]
-
----
-
-## 📸 Screenshots
-
-> Add screenshots of your app here
-
----
-
 ## ✨ Features
 
 - **ATS Score Analysis** — Check how well your resume passes Applicant Tracking Systems
