@@ -135,11 +135,8 @@ This project can be deployed on:
 
 **Devarsh Soni**
 - GitHub: [@Devarsh-soni-git](https://github.com/Devarsh-soni-git)
-- LinkedIn: [devarsh-soni-9794b3366](https://www.linkedin.com/in/devarsh-soni-9794b3366/)
-- Email: devarshsoni365@gmail.com
+
 
 ---
 
-## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
