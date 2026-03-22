@@ -62,7 +62,7 @@ supabase/
 ### Prerequisites
 - Node.js 18+
 - Supabase account
-- Lovable AI API key
+- Gemini AI API key
 
 ### Installation
 
