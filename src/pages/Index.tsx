@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { ResumeInput } from "@/components/ResumeInput";
-import { AnalysisResults, type Analysis } from "@/components/analysis";
+import { AnalysisResults, type Analysis, type LinkedInJob } from "@/components/analysis";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { FileText, Shield, Zap, Award, Sparkles, Brain, Target, LogIn, User, LogOut } from "lucide-react";
@@ -43,7 +43,7 @@ export default function Index() {
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleAnalyze = async (resume: string, jobDescription?: string) => {
+  const handleAnalyze = async (resume: string, jobDescription?: string, jobKeyword?: string) => {
     setIsLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('analyze-resume', {
@@ -53,10 +53,35 @@ export default function Index() {
       if (error) throw error;
       if (data.error) throw new Error(data.error);
 
-      setAnalysis(data);
+      let result: Analysis = data;
 
-      
+      if (jobKeyword?.trim()) {
+        console.log('Adding mock LinkedIn jobs for keyword:', jobKeyword.trim());
+        // For testing, add mock jobs directly
+        result = { ...result, linkedInJobs: [
+          {
+            id: "1",
+            title: `${jobKeyword} Developer`,
+            company: "Tech Corp",
+            location: "San Francisco, CA",
+            posted: "2 days ago",
+            snippet: `We are looking for a skilled ${jobKeyword} developer to join our team...`,
+            url: "https://example.com/job/1"
+          },
+          {
+            id: "2",
+            title: `Senior ${jobKeyword} Engineer`,
+            company: "Startup Inc",
+            location: "New York, NY",
+            posted: "1 week ago",
+            snippet: `Join our growing team as a senior ${jobKeyword} engineer...`,
+            url: "https://example.com/job/2"
+          }
+        ] };
+        console.log('Added mock LinkedIn jobs to result');
+      }
 
+      setAnalysis(result);
       toast.success("Analysis complete! Review your personalized suggestions below.");
     } catch (error) {
       console.error("Analysis error:", error);

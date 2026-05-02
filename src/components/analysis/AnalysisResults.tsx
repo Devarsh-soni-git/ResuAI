@@ -9,6 +9,7 @@ import { BulletComparison } from "./BulletComparison";
 import { InterviewPrepCard } from "./InterviewPrepCard";
 import { SectionCard } from "./SectionCard";
 import { KeywordCloud } from "./KeywordCloud";
+import { LinkedInJobs } from "./LinkedInJobs";
 import { SmartCoachingCard } from "./SmartCoachingCard";
 import type { Analysis } from "./types";
 
@@ -90,6 +91,11 @@ export function AnalysisResults({ analysis, onReset }: AnalysisResultsProps) {
 
       {/* Keyword Analysis */}
       <KeywordCloud keywords={analysis.keywordAnalysis} />
+
+      {/* LinkedIn Job Matches */}
+      {analysis.linkedInJobs && analysis.linkedInJobs.length > 0 && (
+        <LinkedInJobs jobs={analysis.linkedInJobs} />
+      )}
 
       {/* Smart Coaching */}
       {smartCoaching.generatedSummary && (

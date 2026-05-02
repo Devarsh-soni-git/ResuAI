@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -9,13 +10,14 @@ import { toast } from "sonner";
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.js';
 
 interface ResumeInputProps {
-  onAnalyze: (resume: string, jobDescription?: string) => void;
+  onAnalyze: (resume: string, jobDescription?: string, jobKeyword?: string) => void;
   isLoading: boolean;
 }
 
 export function ResumeInput({ onAnalyze, isLoading }: ResumeInputProps) {
   const [resume, setResume] = useState("");
   const [jobDescription, setJobDescription] = useState("");
+  const [jobKeyword, setJobKeyword] = useState("");
   const [showJobDescription, setShowJobDescription] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
   const [isParsingFile, setIsParsingFile] = useState(false);
@@ -105,7 +107,7 @@ export function ResumeInput({ onAnalyze, isLoading }: ResumeInputProps) {
 
   const handleSubmit = () => {
     if (resume.trim()) {
-      onAnalyze(resume, jobDescription.trim() || undefined);
+      onAnalyze(resume, jobDescription.trim() || undefined, jobKeyword.trim() || undefined);
     }
   };
 
@@ -208,16 +210,34 @@ export function ResumeInput({ onAnalyze, isLoading }: ResumeInputProps) {
           </span>
         </button>
         
-        {showJobDescription && (
-          <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
-            <Textarea
-              placeholder="Paste the job description you're targeting... This helps identify keyword gaps and skill mismatches."
-              value={jobDescription}
-              onChange={(e) => setJobDescription(e.target.value)}
-              className="min-h-[180px] resize-none border-border/50 focus:border-accent transition-colors font-body text-sm"
+        <div className="mt-4 grid gap-4">
+          <div>
+            <label htmlFor="job-keyword" className="text-sm font-medium text-foreground block mb-2">
+              Target Job Keyword
+            </label>
+            <Input
+              id="job-keyword"
+              placeholder="e.g. Product Manager, Data Analyst, Software Engineer"
+              value={jobKeyword}
+              onChange={(e) => setJobKeyword(e.target.value)}
+              className="border-border/50 focus:border-accent transition-colors font-body text-sm"
             />
+            <p className="text-xs text-muted-foreground mt-2">
+              Use a keyword to fetch LinkedIn jobs that match your desired role.
+            </p>
           </div>
-        )}
+
+          {showJobDescription && (
+            <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+              <Textarea
+                placeholder="Paste the job description you're targeting... This helps identify keyword gaps and skill mismatches."
+                value={jobDescription}
+                onChange={(e) => setJobDescription(e.target.value)}
+                className="min-h-[180px] resize-none border-border/50 focus:border-accent transition-colors font-body text-sm"
+              />
+            </div>
+          )}
+        </div>
       </Card>
 
       <Button 

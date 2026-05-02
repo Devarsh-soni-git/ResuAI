@@ -39,12 +39,12 @@ export default function Profile() {
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.error("Supabase error:", error); // ✅ add this
+      console.error("Supabase error:", error); 
       throw error;
     }
     setUploads(data || []);
   } catch (error) {
-    console.error("Fetch error:", error); // ✅ add this
+    console.error("Fetch error:", error); 
     toast.error("Failed to load resume history");
   } finally {
     setIsLoading(false);

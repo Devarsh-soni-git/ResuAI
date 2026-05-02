@@ -7,5 +7,6 @@ export * from './BulletComparison';
 export * from './InterviewPrepCard';
 export * from './SectionCard';
 export * from './KeywordCloud';
+export * from './LinkedInJobs';
 export * from './SmartCoachingCard';
 

@@ -32,6 +32,16 @@ export interface SmartCoaching {
   generatedSummary: string;
 }
 
+export interface LinkedInJob {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  posted: string;
+  snippet: string;
+  url: string;
+}
+
 export interface Analysis {
   overallScore: number;
   atsScore: number;
@@ -42,4 +52,5 @@ export interface Analysis {
   strengths: string[];
   interviewPrep: InterviewPrep;
   smartCoaching: SmartCoaching;
+  linkedInJobs?: LinkedInJob[];
 }
