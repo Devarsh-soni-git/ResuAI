@@ -1,73 +1,142 @@
-# Welcome to your Lovable project
+# ResuAI — AI-Powered Resume Analyzer
 
-## Project info
+> Transform your resume into a career catalyst with AI-driven insights, ATS optimization, and personalized coaching.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+---
 
-## How can I edit this code?
+## ✨ Features
 
-There are several ways of editing your application.
+- **ATS Score Analysis** — Check how well your resume passes Applicant Tracking Systems
+- **Keyword Gap Analysis** — Identify missing keywords based on job descriptions
+- **Achievement-Focused Rewrites** — Transform plain duties into impactful bullet points
+- **Interview Prep** — Get likely interview questions based on your resume
+- **Smart Career Coaching** — Personalized tips based on your experience level
+- **Resume Upload History** — View all past analyses on your profile
+- **Secure Authentication** — JWT-based login and registration with Supabase Auth
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## 🛠️ Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+| Layer | Technology |
+|---|---|
+| Frontend | React 18 + TypeScript |
+| Build Tool | Vite |
+| Styling | Tailwind CSS + shadcn/ui |
+| Routing | React Router v6 |
+| Forms | React Hook Form + Zod |
+| Backend | Supabase (PostgreSQL + Auth) |
+| Edge Functions | Deno (Supabase Edge Functions) |
+| AI Model | Google Gemini (via Lovable AI Gateway) |
+| State Management | TanStack Query |
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🏗️ Project Structure
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```
+src/
+├── components/
+│   ├── analysis/         # Analysis result components
+│   ├── ui/               # shadcn/ui components
+│   ├── NavLink.tsx
+│   ├── ProtectedRoute.tsx
+│   └── ResumeInput.tsx
+├── hooks/
+│   └── useAuth.tsx       # Auth context and hooks
+├── pages/
+│   ├── Index.tsx         # Home page
+│   ├── Login.tsx
+│   ├── Register.tsx
+│   └── Profile.tsx       # User profile + resume history
+supabase/
+└── functions/
+    ├── analyze-resume/   # AI analysis edge function
+    └── parse-resume/     # PDF parsing edge function
+```
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## ⚙️ Getting Started
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Prerequisites
+- Node.js 18+
+- Supabase account
+- Gemini AI API key
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Installation
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+# Clone the repo
+git clone https://github.com/Devarsh-soni-git/ResuAI.git
+
+# Navigate into the project
+cd ResuAI
+
+# Install dependencies
+npm install
+
+# Start the dev server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Environment Variables
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Create a `.env` file at the root:
 
-**Use GitHub Codespaces**
+```env
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Supabase Setup
 
-## What technologies are used for this project?
+Run this SQL in your Supabase SQL Editor:
 
-This project is built with:
+```sql
+create table public.resume_uploads (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users(id) on delete cascade not null,
+  resume_text text not null,
+  job_description text,
+  analysis jsonb,
+  created_at timestamp with time zone default now()
+);
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+alter table public.resume_uploads enable row level security;
 
-## How can I deploy this project?
+create policy "Users can only access their own uploads"
+on public.resume_uploads for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+```
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+## 🔐 Security
 
-Yes, you can!
+- Row Level Security (RLS) enabled on all tables
+- JWT-based authentication via Supabase Auth
+- Environment variables for all sensitive keys
+- Edge functions handle AI processing server-side
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 📦 Deployment
+
+This project can be deployed on:
+- **Vercel** — `npm run build` then deploy `/dist`
+- **Netlify** — connect repo and set build command to `npm run build`
+- **Lovable** — push changes and deploy directly
+
+---
+
+## 👨‍💻 Author
+
+**Devarsh Soni**
+- GitHub: [@Devarsh-soni-git](https://github.com/Devarsh-soni-git)
+
+
+---
+
+
